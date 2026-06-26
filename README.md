@@ -1,6 +1,6 @@
-# Claude Battery 🔋
+# Claude Checker 🔋
 
-macOSのメニューバーに、Claude Codeの**実際の使用上限**（Claude公式が返す 5時間 / 7日間 のリミット）をバッテリーのように常駐表示するアプリ。
+macOSのメニューバーに、Claude Codeの使用上限（Claude公式が返す 5時間 / 7日間 のリミット）をバッテリーのように常駐表示するアプリ。
 
 ```
 🟢 87%   ← メニューバーに常駐
@@ -25,7 +25,7 @@ Quit
 
 ## 仕組み
 
-Claude Code は APIレスポンスのヘッダーから `rate_limits.{five_hour, seven_day}.used_percentage` を抜き出して、**statusLine hook の stdin JSON に渡してくる**。
+Claude Code は APIレスポンスのヘッダーから `rate_limits.{five_hour, seven_day}.used_percentage` を抜き出して、statusLine hook の stdin JSON に渡してくる。
 
 このプロジェクトはそれを利用します:
 
@@ -34,13 +34,13 @@ Claude Code は APIレスポンスのヘッダーから `rate_limits.{five_hour,
 3. `rate_limits` を `~/.claude_battery_state.json` に保存
 4. メニューバーアプリは 30秒おきにそのファイルを読んで表示
 
-つまり**公式の生データ**を使うので、プランや上限を推測する必要がなく正確です。
-
 statusLine 自体には何も出力しないので、画面下のUIには影響しません（メニューバーだけに集約）。
 
 ### フォールバック
 
 Claude Code がまだAPI呼び出ししてない（= state ファイルが空）場合は、`~/.claude/projects/**/*.jsonl` を5時間ウィンドウで集計する**推定モード**にフォールバックします。プランは右クリックメニューから選択可能（Pro / Max 5x / Max 20x）。
+これなんかトークンの総量がおかしいので、あんまり信頼しない方がいいです。
+
 
 ## インストール
 
